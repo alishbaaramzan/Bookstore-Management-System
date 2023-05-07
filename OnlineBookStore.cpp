@@ -42,15 +42,15 @@ class Cart{
         string name;
         float price;
 
-        do{
-            file >> name >> price;
+        
+        while(file >> name >> price){
 
-            cout << setw(20) << name << "#" << price << endl;
+            cout << setw(20) << name << " # PKR" << price << endl;
 
-        }while(!file.eof());
-
+        }
+        file.close();
         cout << "Total books bought: " << booksbought << endl;
-        cout << "Total price is : " << totalprice << endl << endl;
+        cout << "Total price is :  PKR " << totalprice << endl << endl;
 
     }
 
@@ -95,15 +95,17 @@ class Seller : public Person{
             cout << "Enter your password: ";
             getline(cin,pass);
 
-            do{
-                file >> username >> password >> ID;
+            while(file >> username >> password >> ID){
                 if(username==name && password==pass){
                     cout << "You're logged in..." << endl << endl;
                     check = true;
                     break;
                 }
-            }while(!file.eof());
-
+            }
+            file.close();
+            if(check==false){
+                cout << "You need to sign up first"<< endl;
+            }
             return check;
         }
         // function to add books to the system
@@ -160,15 +162,17 @@ class Buyer : public Person{
             cout << "Enter your password: ";
             getline(cin,pass);
 
-            do{
-                file >> username >> password >> house_no >> street_no >> city;
+            while(file >> username >> password >> house_no >> street_no >> city){
                 if(username==name && password==pass){
                     cout << "You're logged in..." << endl << endl;
                     check = true;
                     break;
                 }
-            }while(!file.eof());
-
+            }
+            file.close();
+            if(check==false){
+                cout << "You need to sign up first" << endl;
+            }
             return check;
         }
 
@@ -235,11 +239,12 @@ class Fiction : public Category{
                     cin >> book.availabecopies;
 
                     file << " " << book.name << " " << book.author << " " << book.price << " " << book.ISBN << " " << book.availabecopies << '\n';
-                    file.close();
+                   
 
                 }
 
                 else{
+                    file.close();
                     break;
                 }
             }
@@ -254,22 +259,21 @@ class Fiction : public Category{
             Book book;
             Cart cart;
 
-            do{
-                file >> book.name >> book.author >> book.price >> book.ISBN >> book.availabecopies;
-
+            while (file >> book.name >> book.author >> book.price >> book.ISBN >> book.availabecopies) {
                 cout << "Name: " << book.name << endl;
                 cout << "Author: " << book.author << endl;
                 cout << "Price: " << book.price << endl;
-                cout << "ISBN: " << book.ISBN <<endl;
+                cout << "ISBN: " << book.ISBN << endl;
                 cout << "Available Copies: " << book.availabecopies << endl << endl;
-                cout << "You wish to buy this book?(y/n)" << endl;
+                cout << "Do you wish to buy this book? (y/n)" << endl;
                 cin >> option;
-                
-                if(option=='y' || option=='Y'){
+    
+                if (option == 'y' || option == 'Y') {
                     cart.addtocart(book.name, book.price);
-                }
+                    cout << "Book added to cart..." << endl << endl;
 
-            }while(!file.eof());
+    }
+}
             
             cart.cartdisplay();
 
@@ -288,13 +292,14 @@ class Fiction : public Category{
             file.open("D:// fiction.txt", ios :: in);
             file2.open("D:// fiction2.txt", ios :: out | ios :: app);
 
-            do{
-                file >> book.name >> book.author >> book.price >> book.ISBN >> book.availabecopies;
+            while(file >> book.name >> book.author >> book.price >> book.ISBN >> book.availabecopies){
                 if(isbn==book.ISBN){
                     cout << "Book Successfully Deleted..." << endl << endl;
                 }
+                else{
                 file2 <<" " << book.name << " " << book.author << " " << book.price << " " << book.ISBN << " " << book.availabecopies << '\n';
-            }while(!file.eof());
+                }
+            }
 
             remove("D:// fiction.txt");
             rename("D:// fiction2.txt", "D:// fiction.txt");
@@ -338,11 +343,12 @@ class NonFiction : public Category{
                     cin >> book.availabecopies;
 
                     file << " " << book.name << " " << book.author << " " << book.price << " " << book.ISBN << " " << book.availabecopies << '\n';
-                    file.close();
+                    
 
                 }
 
                 else{
+                    file.close();
                     break;
                 }
             }
@@ -357,8 +363,7 @@ class NonFiction : public Category{
             Book book;
             Cart cart;
 
-           do{
-                file >> book.name >> book.author >> book.price >> book.ISBN >> book.availabecopies;
+           while(file >> book.name >> book.author >> book.price >> book.ISBN >> book.availabecopies){
 
                 cout << "Name: " << book.name << endl;
                 cout << "Author: " << book.author << endl;
@@ -370,9 +375,10 @@ class NonFiction : public Category{
                 
                 if(option=='y' || option=='Y'){
                     cart.addtocart(book.name, book.price);
+                    cout << "Book added to cart..." << endl << endl;
                 }
 
-            } while(!file.eof());
+            } 
 
             cart.cartdisplay();
 
@@ -391,13 +397,14 @@ class NonFiction : public Category{
             file.open("D:// fiction.txt", ios :: in);
             file2.open("D:// fiction2.txt", ios :: out | ios :: app);
 
-            do{
-                file >> book.name >> book.author >> book.price >> book.ISBN >> book.availabecopies;
+            while(file >> book.name >> book.author >> book.price >> book.ISBN >> book.availabecopies){
                 if(isbn==book.ISBN){
                     cout << "Book Successfully Deleted..." << endl << endl;
                 }
+                else{
                 file2 <<" " << book.name << " " << book.author << " " << book.price << " " << book.ISBN << " " << book.availabecopies << '\n';
-            }while(!file.eof());
+                }
+            }
 
             remove("D:// fiction.txt");
             rename("D:// fiction2.txt", "D:// fiction.txt");
@@ -481,7 +488,12 @@ class Shop{
                     check = buyer.login();
                     break;
                 case '3':
+                   if(check== true){
                    buyer.buybooksbuyer(allbooksinshop);
+                   }
+                   else{
+                    cout << "Log in first" << endl;
+                   }
                 case '4':
                     cont = false;
                     break;
@@ -490,8 +502,11 @@ class Shop{
     }
 };
 void Seller::  addBooksseller(AllBooks &allbooks){
+            bool cont = true;
+            while(cont){
             char option;
-            cout << "1.Fiction\n2.Non Fiction\n";
+            cout << "Choose the category in which you wish to add books: " << endl;
+            cout << "1.Fiction\n2.Non Fiction\n3.Exit\n";
             cin >> option;
 
             switch(option){
@@ -501,11 +516,18 @@ void Seller::  addBooksseller(AllBooks &allbooks){
                 case '2':
                     allbooks.books_nonfiction.addBooks();
                     break;
+                case '3':
+                    cont = false;
+                    break;
+            }
             }
         }
 void Seller:: deleteBooksseller(AllBooks &allbooks){
+            bool cont = true;
+            while(cont = true){
             char option;
-            cout << "1.Fiction\n2.Non Fiction\n";
+            cout << "Select the category you wish to delete books from: " << endl;
+            cout << "1.Fiction\n2.Non Fiction\n3.Exit\n";
             cin >> option;
 
             switch(option){
@@ -515,11 +537,19 @@ void Seller:: deleteBooksseller(AllBooks &allbooks){
                 case '2':
                     allbooks.books_nonfiction.delBook();
                     break;
+                case '3':
+                    cont = false;
+                    break;
+            }
             }
         }
 void Buyer:: buybooksbuyer(AllBooks &allbooks){
+
+            bool cont = true;
+            while(cont==true){
             char option;
-            cout << "1.Fiction\n2.Non Fiction\n";
+            cout << "Choose the category you wish to buy from: " << endl;
+            cout << "1.Fiction\n2.Non Fiction\n3.Exit\n";
             cin >> option;
 
             switch(option){
@@ -529,12 +559,16 @@ void Buyer:: buybooksbuyer(AllBooks &allbooks){
                 case '2':
                     allbooks.books_nonfiction.buyBooks();
                     break;
+                case '3':
+                    cont = false;
+                    break;
+            }
             }
             cout << "The books you ordered will be delivered to the following address: " << endl;
-            cout << username << endl
-            << house_no <<endl
-            << street_no << endl
-            << city << endl << endl
+            cout << "Name: " << username << endl
+            << "House No# " << house_no <<endl
+            << "Street No# " << street_no << endl
+            << "City# " << city << endl << endl
             << "Please keep the cash ready when we come to your doorstep" << endl << endl;
 }
 int main(){
@@ -543,8 +577,9 @@ int main(){
     char identity;
     cout << "WELCOME TO FLOURISH AND BLOTTS!" << endl;
     cout << "'It's where stories come to life'" << endl << endl;
+    bool cont = true;
 
-    while(true){
+    while(cont){
     cout << "1. Seller\n2. Buyer\n3. Exit\n";
     cin >> identity;
 
@@ -557,6 +592,7 @@ int main(){
             break;
         case '3':
             cout << "Thankyou for paying us a visit. We hope to see you soon <3" << endl;
+            cont = false;
             break;
     }
 
