@@ -537,7 +537,7 @@ void Buyer:: buybooksbuyer(AllBooks &allbooks){
             << "House No# " << house_no <<endl
             << "Street No# "<< street_no << endl
             << "City# " << city << endl << endl
-            << "Please keep the cash ready when we come to your doorstep" << endl << endl;
+            << "Please keep the cash ready when we come to your doorstep!" << endl << endl;
 }
 int main(){
     Shop flourishandBlotts;
