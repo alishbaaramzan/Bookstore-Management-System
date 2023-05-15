@@ -124,7 +124,7 @@ class Buyer : public Person{
         void signup(){
             fstream file;
             file.open("D:// buyers.txt", ios::out | ios::app);
-
+             if (file.is_open()){
             cout << "Name: ";
             cin.ignore();
             getline(cin,username);
@@ -138,10 +138,8 @@ class Buyer : public Person{
             cout << "City: ";
             cin.ignore();
             getline(cin,city);
-
-
-
             file << " " << username << " " << password << " " << house_no << " " << street_no << " " << city <<  '\n';
+            }
             file.close();
         }
 
@@ -153,7 +151,7 @@ class Buyer : public Person{
 
             fstream file;
             file.open("D:// buyers.txt", ios :: in);
-
+             if (file.is_open()){
             cout << "Enter your username: ";
             cin.ignore();
             getline(cin, name);
@@ -169,7 +167,7 @@ class Buyer : public Person{
                     break;
                 }
             }while(!file.eof());
-
+             }
             return check;
         }
 
