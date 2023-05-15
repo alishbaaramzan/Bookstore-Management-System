@@ -354,7 +354,7 @@ class NonFiction : public Category{
             char option;
             fstream file;
             file.open("D:// nonfiction.txt", ios:: in);
-
+             if (file.is_open()){
             Book book;
             Cart cart;
 
@@ -371,7 +371,7 @@ class NonFiction : public Category{
                 if(option=='y' || option=='Y'){
                     cart.addtocart(book.name, book.price);
                 }
-
+           }
             };
 
             cart.cartdisplay();
@@ -389,8 +389,10 @@ class NonFiction : public Category{
 
             fstream file, file2;
             file.open("D:// fiction.txt", ios :: in);
+             if (file.is_open())
+             {
             file2.open("D:// fiction2.txt", ios :: out | ios :: app);
-
+             if (file2.is_open()){
             do{
                 file >> book.name >> book.author >> book.price >> book.ISBN >> book.availabecopies;
                 if(isbn==book.ISBN){
@@ -401,6 +403,8 @@ class NonFiction : public Category{
 
             remove("D:// fiction.txt");
             rename("D:// fiction2.txt", "D:// fiction.txt");
+        }
+        }
         }
 };
 
