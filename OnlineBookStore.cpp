@@ -28,17 +28,18 @@ class Cart{
     void addtocart(string bookname, float price){
         fstream file;
         file.open("D:// cart.txt", ios::out | ios::app);
-
+        if (file.is_open()){
         file << " " << bookname <<" " << price << '\n';
         booksbought++;
         totalprice+=price;
+        } 
         file.close();
     }
     // function to display the cart
     void cartdisplay(){
         fstream file;
         file.open("D:// cart.txt", ios::in);
-
+         if (file.is_open()){
         string name;
         float price;
 
@@ -47,7 +48,7 @@ class Cart{
             cout << setw(20) << name << "# PKR" << price  << endl;
 
         }
-
+        }
         cout << "Total books bought: " << booksbought << endl;
         cout << "Total price is : PKR " << totalprice << endl << endl;
 
@@ -63,7 +64,7 @@ class Seller : public Person{
         void signup(){
             fstream file;
             file.open("D:// sellers.txt", ios::out | ios::app);
-
+            if (file.is_open()){
             cout << "SIGN UP!" << endl << endl;
             cout << "Name: ";
             cin.ignore();
@@ -75,6 +76,7 @@ class Seller : public Person{
             cout << endl;
 
             file << " " << username << " " << password << " " << ID << '\n';
+            }
             file.close();
         }
 
@@ -86,7 +88,7 @@ class Seller : public Person{
 
             fstream file;
             file.open("D:// sellers.txt", ios :: in);
-
+            if (file.is_open()){
             cout << "Enter your username: ";
             cin.ignore();
             getline(cin, name);
@@ -102,7 +104,7 @@ class Seller : public Person{
                     break;
                 }
             }while(!file.eof());
-
+            }
             return check;
         }
         // function to add books to the system
